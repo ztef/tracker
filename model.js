@@ -1,5 +1,7 @@
-class MobileObjectModel {
+class MobileObjectModel extends EventTarget {
     constructor() {
+      super(); // Call the EventTarget constructor to enable event handling
+  
       // Initialize an empty array to store mobile objects
       this.mobiles = [];
     }
@@ -10,6 +12,8 @@ class MobileObjectModel {
       if (existingMobile) {
         // Update the existing mobile object
         existingMobile.data = data;
+        this.dispatchEvent(new CustomEvent('mobileUpdated', { detail: existingMobile }));
+ 
          
         return existingMobile;
       } else {
@@ -20,6 +24,8 @@ class MobileObjectModel {
            
         };
         this.mobiles.push(newMobile);
+        this.dispatchEvent(new CustomEvent('mobileAdded', { detail: newMobile }));
+
         return newMobile;
       }
     }
